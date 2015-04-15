@@ -39,21 +39,10 @@ public class SubscriberAdapter<T> implements Subscriber<T> {
         }
 
         if (started.compareAndSet(false, true)) {
-            rxSubscriber.add(Subscriptions.create(new Action0() {
-                @Override
-                public void call() {
-                    rsSubscription.cancel();
-                }
-            }));
+            RxJavaAtomicProducer ap = new RxJavaAtomicProducer(rsSubscription);
+            rxSubscriber.add(ap);
             rxSubscriber.onStart();
-            rxSubscriber.setProducer(new Producer() {
-                @Override
-                public void request(long n) {
-                    if (n > 0) {
-                        rsSubscription.request(n);
-                    }
-                }
-            });
+            rxSubscriber.setProducer(ap);
         } else {
             rsSubscription.cancel();
         }
