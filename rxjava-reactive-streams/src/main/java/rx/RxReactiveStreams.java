@@ -54,7 +54,7 @@ public abstract class RxReactiveStreams {
      * @return the converted {@link Observable}
      */
     public static <T> Observable<T> toObservable(final Publisher<T> publisher) {
-        return Observable.create(new Observable.OnSubscribe<T>() {
+        return Observable.unsafeCreate(new Observable.OnSubscribe<T>() {
             @Override
             public void call(final rx.Subscriber<? super T> rxSubscriber) {
                 publisher.subscribe(toSubscriber(rxSubscriber));

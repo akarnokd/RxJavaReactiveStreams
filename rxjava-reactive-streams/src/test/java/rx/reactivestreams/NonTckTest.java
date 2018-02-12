@@ -103,7 +103,7 @@ public class NonTckTest {
 
     @Test
     void rxFailingOnSubscribeSendsSingleErrorPostSubscribe() {
-        RsSubscriber<Integer> subscriber = subscribe(Observable.create(new Observable.OnSubscribe<Integer>() {
+        RsSubscriber<Integer> subscriber = subscribe(Observable.unsafeCreate(new Observable.OnSubscribe<Integer>() {
             @Override
             public void call(Subscriber<? super Integer> subscriber) {
                 throw new RuntimeException("!");
